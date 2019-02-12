@@ -1,20 +1,56 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<igx-hierarchical-grid #grid1 [data]="remoteData" [rowEditable]="true" [primaryKey]="'id'" [autoGenerate]="false"
+    [height]="null" [width]="'763px'" [showToolbar]="true" #hGrid>
+    <igx-column field="name" header="Name" [dataType]="'string'" [width]="'400px'"></igx-column>
+    <igx-column field="age" header="Age" [dataType]="'number'" [width]="'200px'"></igx-column>
+    <igx-column width="90px">
+        <ng-template igxCell let-cell="cell">
+            <button igxButton="icon" (click)="removeRow(cell.row.rowID, cell.grid)">
+                <igx-icon>delete</igx-icon>
+            </button>
+        </ng-template>
+    </igx-column>
+    <igx-row-island #rowIsland1 [key]="'vacations'" [height]="'300px'" [primaryKey]="'id'" [autoGenerate]="false"
+        (onGridCreated)="gridCreated($event, rowIsland1)" [rowEditable]="true" [showToolbar]="true">
+        <igx-column field="from" header="From" [dataType]="'date'" [formatter]="formatDate"></igx-column>
+        <igx-column field="to" header="To" [dataType]="'date'" [formatter]="formatDate"></igx-column>
+        <igx-column width="90px">
+            <ng-template igxCell let-cell="cell">
+                <button igxButton="icon" (click)="removeRow(cell.row.rowID, cell.grid)">
+                    <igx-icon>delete</igx-icon>
+                </button>
+            </ng-template>
+        </igx-column>
+        <ng-template igxToolbarCustomContent let-context="grid">
+            <button igxButton="raised" (click)="openVacationDialog(context)">Add Vacation</button>
+        </ng-template>
+    </igx-row-island>
+    <ng-template igxToolbarCustomContent let-context="grid">
+        <button igxButton="raised" (click)="dialogEmployee.open(context)">Add Employee</button>
+    </ng-template>
+</igx-hierarchical-grid>
 
+<div class="sample-actions">
+    <button igxButton="raised" (click)='commitAllTransactions()'>Commit</button>
+</div>
+
+<igx-dialog #dialogEmployee title="New Employee" [rightButtonLabel]="'Add'" [leftButtonLabel]="'Cancel'"
+    (onLeftButtonSelect)="cancel()" (onRightButtonSelect)="addEmployee()">
+    <div class="dialogNewRecord">
+        <igx-input-group>
+            <label igxLabel for="name">Name</label>
+            <input igxInput id="name" type="text" [(ngModel)]="newEmployee.name" />
+        </igx-input-group>
+        <igx-input-group>
+            <label igxLabel for="age">Age</label>
+            <input igxInput id="age" type="number" [(ngModel)]="newEmployee.age" />
+        </igx-input-group>
+    </div>
+</igx-dialog>
+
+<igx-dialog #dialogVacation title="New Vacation" [rightButtonLabel]="'Add'" [leftButtonLabel]="'Cancel'"
+    (onLeftButtonSelect)="cancel()" (onRightButtonSelect)="addVacation()">
+    <div class="dialogNewRecord">
+        <igx-date-picker [(ngModel)]="newVacation.from">From</igx-date-picker>
+        <igx-date-picker [(ngModel)]="newVacation.to"></igx-date-picker>
+    </div>
+</igx-dialog>

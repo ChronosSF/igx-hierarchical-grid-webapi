@@ -4,6 +4,9 @@
 /dist
 /tmp
 /out-tsc
+/wwwroot/*
+/obj
+/bin
 
 # dependencies
 /node_modules
