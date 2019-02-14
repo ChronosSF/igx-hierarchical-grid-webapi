@@ -43,7 +43,7 @@ namespace aspnetcoredemo
 			app.UseDefaultFiles();
 			app.UseStaticFiles();
 
-			app.UseHttpsRedirection();
+			// app.UseHttpsRedirection();
 			app.UseMvc();
 		}
 	}

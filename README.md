@@ -22,3 +22,5 @@ It outputs the produced files into the wwwroot dir. To serve:
 ```
 dotnet run
 ```
+
+You can find the sample data base file the EntityFramework model was scaffolded from in the App_Data folder. You need to add it to an MS SQL Server instance to use it as a back end. The connection settings are hardcoded in the `EmployeesContext.cs` file.
